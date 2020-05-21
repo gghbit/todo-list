@@ -1,0 +1,29 @@
+*{
+  font-family: 'Balsamiq Sans', cursive;
+}
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: #00b09b;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #96c93d, #00b09b);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #96c93d, #00b09b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100vh;
+}
+h1{
+  color: #ffffff;
+  text-align: center;
+}
+#contenedorListas{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.lista{
+  width: 400px;
+  min-height: 100px;
+  margin: 16px 0;
+  background-color: #ffffff;
+  box-shadow: 10px 10px 13px -4px rgba(0,0,0,0.75);
+}
