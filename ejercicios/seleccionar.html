@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abuelo, hijos, nietos</title>
+</head>
+<body>
+  <div class="abuelo">
+    <div class="hijo uno">
+      <div class="nieto"></div>
+    </div>
+    <div class="hijo dos">
+      <div class="nieto"></div>
+    </div>
+  </div>
+  <div class="hijo tres">
+    <div class="nieto"></div>
+  </div>
+  <script>
+    var abuelo = document.getElementsByClassName('abuelo')[0];
+    console.log('ABUELO -> ',abuelo);
+    var hijos = document.getElementsByClassName('hijo');
+    var hijos2 = abuelo.getElementsByClassName('hijo');
+    console.log('HIJOS del documento -> ', hijos);
+    console.log('HIJOS del abuelo -> ', hijos2);
+    var nietos = document.getElementsByClassName('nieto');
+    console.log('NIETOS del documento -> ', nietos);
+    var nietos2 = abuelo.getElementsByClassName('nieto');
+    console.log('NIETOS de abuelo -> ', nietos2);
+    var miPapa0 = nietos[0].parentElement;
+    console.log('El papa de nieto[0] -> ', miPapa0);
+    var miPapa1 = nietos[1].parentElement;
+    console.log('El papa de nieto[1] -> ', miPapa1);
+    
+  </script>
+</body>
+</html>
