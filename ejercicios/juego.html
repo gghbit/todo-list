@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS only -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <title>Juego</title>
   <style>
-    .card{
+    body{
+      background: #2980B9;  /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9);  /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #FFFFFF, #6DD5FA, #2980B9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      text-align: center;
+    }
+    h1{
+      color: #FFFFFF;
+    }
+    .card {
       width: 100px;
       height: 100px;
-      border: 1px solid red;
+      background: #33FF71;
     }
-    .contenedor{
+    .contenedor {
       display: flex;
       flex-wrap: wrap;
+      margin: 32px auto;
+    }
+    img {
+      width: 100%;
+    }
+    .chido{
+      font-size: 60px;
+      color: #FE2E64;
     }
   </style>
 </head>
+
 <body>
+  <h1>Juega Buscaminas</h1>
   <input type="number" id="numero" placeholder="numero de columnas">
-  <button id="jugar">Jugar</button>
+  <button id="jugar" class="btn btn-success">Jugar</button>
+  <button id="limpiar" class="btn btn-danger">Limpiar</button>
   <div class="contenedor">
 
   </div>
@@ -26,20 +49,103 @@
     var contenedor = document.getElementsByClassName('contenedor')[0];
     var boton = document.getElementById('jugar');
     var columnas = 0;
+    var bombas = 0;
+    var arrayCards = [];
+    var perder = 0;
+    var ganar = 0;
+
     boton.addEventListener('click', jugar);
+
     function jugar(evento) {
-      columnas = document.getElementById('numero').value;
-      creaTablero();
+      if(document.getElementById('numero').value >= 2){
+        columnas = document.getElementById('numero').value;
+        bombas = columnas;
+        blimpiar.click();
+        document.getElementById('numero').value = '';
+        creaTablero();
+      }
     }
-    function creaTablero(){
-      for(var i=0; i < columnas; i++){
-        for(var j=0; j < columnas; j++){
-          var salvarContenedor = contenedor.innerHTML;
-          contenedor.innerHTML = salvarContenedor + '<div class="card"></div>';
+    function agregarListeners() {
+      var c = document.getElementsByClassName('contenedor')[0];
+      var cartas = c.getElementsByClassName('card');
+      for (var i= 0; i < cartas.length; i++)
+      {
+        cartas[i].addEventListener('click', volteaCarta);
+      }
+    }
+    function volteaCarta(evt) {
+      console.log('voltea carta');
+      var indice = Number(evt.target.id);
+      evt.target.innerHTML = arrayCards[indice];
+      if(arrayCards[indice] === '<img src="../src/images/bomb.jpg"></img>'){
+        perder = perder + 1;
+        mostrarMensaje('Eres un perdedor');
+      } else {
+        ganar = ganar + 1;
+        if(ganar >= arrayCards.length - columnas){
+          mostrarMensaje('Eres la verga we');
         }
       }
-      contenedor.style.width = (100*columnas+10)+'px';
     }
+
+    function mostrarMensaje(mensaje){
+      var c = document.getElementsByClassName('contenedor')[0];
+      c.innerHTML = '<h1 class="mensaje">'+mensaje+'</h1>'
+    }
+    function agregarBombas(){
+      var contando = 0;
+      do{
+          var aleatorio = Math.random() * ( arrayCards.length - 0);
+          var aleatorioEntero = Math.floor(aleatorio);
+          //arrayCards = ['','','','','','','','',''];
+          if(arrayCards[aleatorioEntero].length < 2){
+            arrayCards[aleatorioEntero] = '<img src="../src/images/bomb.jpg"></img>';
+            contando = contando + 1;
+          }
+      }while(contando < bombas);
+      agregarNumeros();
+    }
+    function agregarNumeros(){
+      for(var i=0; i< arrayCards.length; i++){
+        //arrayCards = ['<img>...</img>','','','','','','','',''];
+        if(arrayCards[i].length < 2){
+          arrayCards[i] = '<p class="chido">'+i+'</p>';
+        }
+      }
+    }
+    function creaTablero() {
+      var contador = 0;
+      for (var i = 0; i < columnas; i++) {
+        for (var j = 0; j < columnas; j++) {
+          var salvarContenedor = contenedor.innerHTML;
+          contenedor.innerHTML = salvarContenedor + '<div id="'+contador+'"class="card"></div>';
+          contador = contador + 1;
+          arrayCards.push('');
+        }
+      }
+      contenedor.style.width = (100 * columnas + 10) + 'px';
+      agregarListeners();
+      agregarBombas();
+    }
+    var blimpiar = document.getElementById('limpiar');
+    blimpiar.addEventListener('click', function (evt) {
+      document.getElementById('numero').value = '';
+      var c = document.getElementsByClassName('contenedor')[0];
+      var cartas = c.getElementsByClassName('card');
+      var cartasLength = cartas.length;
+      for (var i = cartasLength-1; i >= 0; i--)
+      {
+        c.removeChild(cartas[i]);
+      }
+      if(c.getElementsByClassName('mensaje').length >= 1){
+        var msj = c.getElementsByClassName('mensaje')[0];
+        c.removeChild(msj);
+      }
+      arrayCards = [];
+      perder = 0;
+      ganar = 0;
+    });
   </script>
 </body>
+
 </html>
