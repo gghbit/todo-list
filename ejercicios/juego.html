@@ -43,8 +43,8 @@
   <button id="jugar" class="btn btn-success">Jugar</button>
   <button id="limpiar" class="btn btn-danger">Limpiar</button>
   <div class="contenedor">
-
   </div>
+  <h1 id="mensaje"></h1>
   <script>
     var contenedor = document.getElementsByClassName('contenedor')[0];
     var boton = document.getElementById('jugar');
@@ -77,8 +77,10 @@
       console.log('voltea carta');
       var indice = Number(evt.target.id);
       evt.target.innerHTML = arrayCards[indice];
+      evt.target.removeEventListener('click', volteaCarta);
       if(arrayCards[indice] === '<img src="../src/images/bomb.jpg"></img>'){
         perder = perder + 1;
+        mostrarBombas();
         mostrarMensaje('Eres un perdedor');
       } else {
         ganar = ganar + 1;
@@ -88,9 +90,17 @@
       }
     }
 
+    function mostrarBombas(){
+      var cartas = contenedor.getElementsByClassName('card')
+      for(var i=0; i< arrayCards.length; i++)
+      if(arrayCards[i] === '<img src="../src/images/bomb.jpg"></img>') {
+        cartas[i].innerHTML = '<img src="../src/images/bomb.jpg"></img>';
+      }
+      
+    }
     function mostrarMensaje(mensaje){
-      var c = document.getElementsByClassName('contenedor')[0];
-      c.innerHTML = '<h1 class="mensaje">'+mensaje+'</h1>'
+      var c = document.getElementById('mensaje');
+      c.textContent = mensaje;
     }
     function agregarBombas(){
       var contando = 0;
@@ -129,6 +139,7 @@
     }
     var blimpiar = document.getElementById('limpiar');
     blimpiar.addEventListener('click', function (evt) {
+      document.getElementById('mensaje').textContent = '';
       document.getElementById('numero').value = '';
       var c = document.getElementsByClassName('contenedor')[0];
       var cartas = c.getElementsByClassName('card');
