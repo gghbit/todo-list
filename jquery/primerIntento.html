@@ -59,19 +59,21 @@
 
     function mostrarGato(evento){
       evento.preventDefault();
-      console.log(tache, 'tache');
-      if(tache === true) {
-        //le va a las taches
-        $(this).text('X');
-        tache = false;
-      }else{
-        //le van a las
-        $(this).text('O');
-        tache = true;
+
+      if(!$(this).text().length){
+        $(this).off('click');
+        console.log(tache);
+        if(tache == true) {
+          $(this).text('X');
+          tache = false;
+        }else{
+          $(this).text('O');
+          tache = true;
+        }
       }
-      $(this).off('click', mostrarGato);
     }
     function limpiarCartas(evento){
+      evento.preventDefault();
       console.log('evento limpiar');
       $('.card').click(mostrarGato);
       tache = false; //variable globales
