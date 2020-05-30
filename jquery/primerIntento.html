@@ -40,29 +40,29 @@
   <h1>Juega Gato</h1>
   <button id="jugar" class="btn btn-success">Jugar de nuevo</button>
   <div class="contenedor">
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
+    <div id="0" class="card"></div>
+    <div id="1" class="card"></div>
+    <div id="2" class="card"></div>
+    <div id="3" class="card"></div>
+    <div id="4" class="card"></div>
+    <div id="5" class="card"></div>
+    <div id="6" class="card"></div>
+    <div id="7" class="card"></div>
+    <div id="8"class="card"></div>
   </div>
   <h1 id="mensaje"></h1>
   <script>
     var tache = false; //variable globales
+    var cartas = ['','','','','','','','',''];
+    var contador = 0;
     //seleccionar el elemento html, agregar evento
     $('.card').click(mostrarGato);
     $('#jugar').click(limpiarCartas);
 
     function mostrarGato(evento){
       evento.preventDefault();
-
       if(!$(this).text().length){
         $(this).off('click');
-        console.log(tache);
         if(tache == true) {
           $(this).text('X');
           tache = false;
@@ -71,9 +71,28 @@
           tache = true;
         }
       }
+      var indice = Number(evento.target.id);
+      cartas[indice] = evento.target.textContent;
+      contador = contador + 1;
+      quienGana();
     }
+
+    function quienGana(){
+      if(contador > 3) {
+        if(cartas[0] === cartas[4] && cartas[0] === cartas[8]){
+          alert('Ya gane', cartas[0] );
+        } else if(cartas[2] === cartas[4] && cartas[4] === cartas[6]) {
+          alert('Ya gane', cartas[2]);
+        } else if(cartas[1] === cartas[4] && cartas[4] === cartas[7]) {
+          alert('Ya gane', cartas[1]);
+        }
+      }
+    }
+
     function limpiarCartas(evento){
       evento.preventDefault();
+      cartas = ['','','','','','','','',''];
+      contador = 0;
       console.log('evento limpiar');
       $('.card').click(mostrarGato);
       tache = false; //variable globales
